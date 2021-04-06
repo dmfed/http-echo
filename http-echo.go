@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io"
 	"net/http"
@@ -25,6 +26,11 @@ func echoRequest(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	var (
+		flagIP   = flag.String("ip", "127.0.0.1", "ip to listen on")
+		flagPort = flag.String("port", "8080", "port to listen on")
+	)
+	flag.Parse()
 	http.HandleFunc("/", echoRequest)
-	http.ListenAndServe("127.0.0.1:8080", nil)
+	http.ListenAndServe(*flagIP+":"+*flagPort, nil)
 }
