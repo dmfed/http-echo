@@ -1,16 +1,10 @@
-# base image
-FROM golang:1.16-alpine
-# creating working directory
+FROM golang:1.16-alpine AS builder 
 WORKDIR /echo
-# copying go.mod to WORKDIR
 COPY go.mod .
-# could use RUN go mod download
-# copying source code
 COPY *.go .
-# building 
 RUN go build -o /echo/server
-# opening container's port to the outside
+FROM alpine 
+COPY --from=builder /echo/server /bin/echo
 EXPOSE 8080
-# running the app
-CMD ["/echo/server", "-ip", "0.0.0.0"]
+CMD ["/bin/echo", "-addr", ":8080"]
 
