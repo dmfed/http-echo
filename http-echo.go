@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	_ "net/http/pprof"
 )
 
 func echoRequest(w http.ResponseWriter, r *http.Request) {
